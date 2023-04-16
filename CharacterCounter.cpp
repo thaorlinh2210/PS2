@@ -1,17 +1,27 @@
 #pragma once
-#include <cstddef>
 #include "CharacterCounter.h"
-class CharacterMap
+//#include "CharacterMap.h"
+#include <iostream>
+
+using namespace std;
+
+
+CharacterCounter::CharacterCounter() noexcept
 {
-private:
-	unsigned char fCharacter;
-	size_t fFrequency;
-public:
-	CharacterMap(unsigned char aCharacter = '\0',
-		int aFrequency = 0) noexcept;
-	void increment() noexcept;
-	void setCharacter(unsigned char aCharacter) noexcept;
-	bool operator<(const CharacterMap& aOther) const noexcept;
-	unsigned char character() const noexcept;
-	size_t frequency() const noexcept;
-};
+	fTotalNumberOfCharacters = 0;
+	for (int i = 0; i < 256; i++)
+	{
+		fCharacterCounts[i].setCharacter(i);
+	}
+}
+
+void CharacterCounter::count(unsigned char aCharacter) noexcept 
+{
+// takes a character and increments the frequency of the character in the map
+	fCharacterCounts[aCharacter].increment();
+}
+const CharacterMap& CharacterCounter::operator[](unsigned char aCharacter) const noexcept {
+	//returns the map of the character
+	return fCharacterCounts[aCharacter];
+}
+
